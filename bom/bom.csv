@@ -1,0 +1,18 @@
+Part,Description,Quantity,Manufacturer,Part Number,Datasheet,Price (EGP),Total Price (EGP)
+Arduino Uno,Arduino Uno Rev3,1,Arduino,A000066,https://store.arduino.cc/usa/documents/Arduino_Uno_Rev3_schematics.pdf,450,450
+Buzzer,5Vdc PCB Mount Buzzer,2,,,,10,20
+Resistor,"220 Ohm, 0.25W",10,,,,0.2,2
+Arduino Cable,Arduino Usb Cable,1,,,,50,50
+Jumper Wires,Male-to-Male,20,,,,9,18
+BreadBoard,140 pcs breadboard,1,,,,50,50
+Lm35,TemperatureSensor,2,,,,85,170
+LCD,1602 LCD Board Keypad Shield Blue,1,,,,145,145
+I2C LCD, 1602 Serial Character LCD,1,,,,140,140
+H Bridge,L298N Dual H Bridge Driver Module,1,,,,155,155
+Batteries,Rechargeable 18650 Li-ion Battery – 1500~1800 mAh,2,,,,75,150
+ Battery Holder,18650 Battery Holder 2 Cells,1,,,,15,15
+DC Motor,Micro wind generator Dc Motor,1,,,,255,255
+Led,RED,1,,,,1,1
+Motor,Servo Motor,1,,,,90,90
+Memory,EEPROM IC 512k,1,,,,90,90
+,,,,,,TOTAL,1801
