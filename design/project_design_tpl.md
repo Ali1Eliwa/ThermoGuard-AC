@@ -135,6 +135,23 @@ while (true) is (Main Loop)
 
 ## Implementation of the Module
 
+The project is broken into several key modules:
+
+* **`ThermoGuard_AC.ino`**: Contains the System_Init() and main() loop, global variables for state management (Eco, Turbo, Emergency), and all high-level application logic.
+* **`Adc.ino`**: Implements the ADC driver.
+    * `Adc_Init()`: Configures the ADC hardware settings (Prescaler and Reference).
+    * `Get_Temperature()`: Configures the ADC for Channel 2 using the 1.1V internal reference, averages 20 samples, and returns the temperature in Celsius.
+    * `Adc_Read()`: Selects the specified channel, starts a conversion, polls the `ADSC` bit until the conversion is complete, and returns the 10-bit result.
+* **`Lcd.ino`**: Implements the 16x2 LCD driver in 4-bit mode.
+    * `Lcd_Init()`: Performs the required 4-bit initialization sequence and enables the backlight pin.
+    * `Lcd_Send_Command() / Lcd_Send_Data()`: Internal helper functions to send commands and data, respectively, by manipulating the control pins.
+    * `Lcd_Load_Custom_Chars()`: Loads custom characters (Fan animations and Degree symbol) into the LCD memory.
+* **`Keypad.ino`**: Implements the analog keypad driver.
+    * `Get_Keypad_Press()`: Reads the raw 10-bit ADC value from the keypad channel. It then compares this value against the thresholds defined in `Hardware_defs.h` to identify and return the pressed key.
+* **`Motor.ino`**: Implements the DC Motor and Servo driver.
+    * `Motor_Init()`: Configures the PWM timer registers and sets the direction and servo pins as outputs.
+    * `Motor_SetSpeed()`: Controls the speed of the fan by updating the PWM duty cycle based on the temperature error.
+    * `Servo_Send_Pulse()`: Manually modulates the servo signal pin to create precise pulses for the air swing mechanism.
 
 
 ## Integration and Configuration
