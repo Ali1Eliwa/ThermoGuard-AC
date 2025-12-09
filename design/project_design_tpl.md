@@ -90,6 +90,47 @@ Keypad ..> HW_Defs : Includes
 #### Application Logic Flow
 ```plantuml
 
+@startuml
+title Automotive AC Application Main Loop Logic
+
+start
+:System_Init()
+(LCD, ADC, Motor, Servo);
+:Display Splash Screen;
+:Set Default Target_Temp = 24;
+:Set Idle_Counter = 0;
+
+while (true) is (Main Loop)
+    :Read Temperature Sensor
+    (Current_Temp = Get_Temperature());
+    :Read Keypad Value
+    (Key_Press = Get_Keypad_Press());
+
+    ' --- Input & Eco Mode Logic ---
+    if (Key_Press != KEY_NONE) then (Input Detected)
+        :Reset Idle_Counter;
+        if (Eco_Mode_Active) then (yes)
+            :Disable Eco Mode
+            (Turn Backlight ON);
+        endif
+        :Trigger Buzzer Feedback;
+    else (No Input)
+        if (Not Eco_Mode_Active) then (yes)
+            :Increment Idle_Counter;
+            if (Idle_Counter >= IDLE_TIMEOUT) then (yes)
+                :Enable Eco Mode
+                (Turn Backlight OFF);
+                :Show "ECO MODE";
+            endif
+        endif
+    endif
+
+    ' --- Configuration Logic ---
+    if (Key_Press != KEY_NONE) then (yes)
+        if (Key_Press == KEY_RIGHT) then (Turbo)
+            :Toggle Turbo_Mode;
+            :Set Target_Temp (16 or 24);
+
 ```
 
 ## Implementation of the Module
