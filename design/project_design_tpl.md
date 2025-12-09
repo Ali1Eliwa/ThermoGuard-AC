@@ -91,18 +91,29 @@ All source and header files that comprise the project are listed below.
 ```
 
 ### Configuration
-All hardware and application-level constants are defined in Hardware_Defs.h for easy configuration.
+All hardware and application-level constants are defined in `Hardware_Defs.h` for easy configuration.
+
 | Name | Value | Description |
 |:---|:---|:---|
-| *`LCD Pins`* | | |
-| .... | .... | .... |
-| .... | .... | .... |
-
-| *`LED Pin`* | | |
-| .... | .... | .... |
-| .... | .... | .... |
-| *`ADC Channels`* | | |
-| .... | .... | .... |
-| .... | .... | .... |
-| *`Keypad Thresholds`*| | .... |
+| **LCD Configuration** | | |
+| `LCD_RS_PIN` | 0 (PB0) | Register Select Pin |
+| `LCD_E_PIN` | 1 (PB1) | Pin for LCD Enable |
+| `LCD_BL_PIN` | 2 (PB2) | Pin for Backlight Control (Eco Mode) |
+| `LCD_DATA_PORT` | PORTD | Port for LCD Data Lines (D4-D7) |
+| **Actuators & Alarm** | | |
+| `MOTOR_PWM_PIN` | 3 (PD3) | DC Motor Speed (Timer 2) |
+| `MOTOR_DIR_PINS` | 4, 5 (PB4, PB5) | DC Motor Direction Control |
+| `SERVO_PIN` | 1 (PC1) | Servo Motor Signal Pin |
+| `LED_PIN` | 2 (PD2) | Emergency Warning LED |
+| `BUZZER1_PIN` | 3 (PB3) | Primary Buzzer |
+| `BUZZER2_PIN` | 3 (PC3) | Secondary Buzzer |
+| **ADC Channels** | | |
+| `KEYPAD_CH` | 0 | Channel for Keypad |
+| `TEMP_CH` | 2 | ADC Channel for LM35 |
+| **Keypad Thresholds** | *(10-bit ADC)* | |
+| `KEY_RIGHT` | < 60 | Threshold for Right key (Turbo) |
+| `KEY_UP` | < 200 | Threshold for Up key |
+| `KEY_DOWN` | < 400 | Threshold for Down key |
+| `KEY_LEFT` | < 600 | Threshold for Left key (Swing) |
+| `KEY_SELECT` | < 800 | Threshold for Select key |
 
