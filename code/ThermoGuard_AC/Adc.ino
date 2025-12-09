@@ -1,7 +1,7 @@
 /**
 *********************************************************************************
 * @file              : Adc.ino
-* @author            : Ziad Khalil, Ali Akram Ali, Mahmoud Ahmed El- Adgham
+* @author            : Ziad Khalil, Ali Akram Ali, Mahmoud Ahmed El-Adgham
 * @brief             : Implementation file for the ADC driver.
 *********************************************************************************
 */
@@ -19,9 +19,10 @@
 * @brief Internal function to configure ADC registers.
 */
 static void Adc_Init_Internal(void) {
-    ADMUX = (1<<REFS0);
-                                    // Use AVcc as reference voltage
-                                    // Enable ADC, Set Prescaler to 128 (16MHz/128 = 125kHz)
+    ADMUX = (1<<REFS0); // Use AVcc as reference voltage
+    
+    // Enable ADC, Set Prescaler to 128 (16MHz/128 = 125kHz)
+    // 125kHz is within the optimal 50-200kHz range for AVR ADC
     ADCSRA = (1<<ADEN)|(1<<ADPS2)|(1<<ADPS1)|(1<<ADPS0);
 }
 
@@ -31,14 +32,14 @@ static void Adc_Init_Internal(void) {
 */
 static unsigned short Adc_ReadChannel_Internal(unsigned char ch) {
 
-  ch &= 0b00000111;
-                                // Ensure channel is 0-7
-  ADMUX = (ADMUX & 0xF8)|ch;    // Select the channel
-  ADCSRA |= (1<<ADSC);
-                                // Start a single conversion
+  ch &= 0b00000111;             // Ensure channel is restricted to 0-7
+  ADMUX = (ADMUX & 0xF8)|ch;    // Clear bottom 3 bits, Set channel
+  
+  ADCSRA |= (1<<ADSC);          // Start a single conversion
+  
   while(ADCSRA & (1<<ADSC));    // Wait for the conversion to complete
-  return (ADC);
-                                // Return the 10-bit result
+  
+  return (ADC);                 // Return the 10-bit result
 }
 
 
@@ -46,8 +47,7 @@ static unsigned short Adc_ReadChannel_Internal(unsigned char ch) {
 * @brief Public function: Initializes the ADC module.
 */
 void Adc_Init(void) {
-    Adc_Init_Internal();
-                                // Call the private implementation
+    Adc_Init_Internal();        // Call the private implementation
 }
 
 
@@ -55,19 +55,22 @@ void Adc_Init(void) {
 * @brief Public function: Reads a 10-bit value from the specified channel.
 */
 uint16_t Adc_Read(uint8_t Channel) {
-    ADMUX = (ADMUX & 0xF0) | (Channel & 0x0F);          // Select channel, keep Ref
-    return Adc_ReadChannel_Internal(Channel);           // Call the private implementation
+    // Note: We only set the channel here, Reference is assumed AVcc
+    // unless changed by Get_Temperature.
+    ADMUX = (ADMUX & 0xF0) | (Channel & 0x0F); 
+    return Adc_ReadChannel_Internal(Channel);
 }
 
 
 /**
-* @brief Public function: Reads temperature.
+* @brief Public function: Reads temperature with high precision settings.
 */
 int Get_Temperature(void) {
-    // Set Internal 1.1V Reference
+    // Set Internal 1.1V Reference for better precision on small signals (LM35)
     ADMUX = (1 << REFS0) | (1 << REFS1) | TEMP_ADC_CHANNEL;
-    _delay_ms(5);               // Stabilize
+    _delay_ms(5);               // Stabilize reference voltage
 
+    // Take 20 samples and average them to reduce noise
     uint32_t Sum = 0;
     for (int i = 0; i < 20; i++) {
         ADCSRA |= (1 << ADSC);
@@ -76,7 +79,11 @@ int Get_Temperature(void) {
         _delay_ms(1);
     }
     uint16_t Avg = Sum / 20;
-                                // Conversion: Temp = (ADC * 110) / 1024
+    
+    // Conversion Formula: 
+    // Vout = (ADC / 1024) * 1.1V
+    // Temp = Vout * 100 (since 10mV/C)
+    // Temp = (ADC * 110) / 1024
     return (int)((Avg * 110UL) / 1024UL);
 }
 /* ****************** Sup-Program Section End ****************** */
