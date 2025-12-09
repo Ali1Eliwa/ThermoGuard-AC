@@ -1,15 +1,13 @@
 /**
 *********************************************************************************
 * @file              : Adc.h
-* @author            : Ziad Khalil, Ali Akram Ali, Mahmoud Ahmed El- Adgham
-* @brief             : Header file for the ADC (Analog-to-Digital Converter)
-* : driver.
+* @author            : Ziad Khalil, Ali Akram Ali, Mahmoud Ahmed El-Adgham
+* @brief             : Header file for the ADC (Analog-to-Digital Converter) driver.
 *********************************************************************************
 */
  
 #ifndef ADC_H
 #define ADC_H
-
 
 /* ****************** Include Section Start ******************** */
 #include <stdint.h>         // For uint8_t and uint16_t
@@ -18,7 +16,7 @@
 
 /* ****************** Sup-Program Decleration Section Start **** */
 /**
-* @brief Initializes the ADC hardware.
+* @brief Initializes the ADC hardware with Prescaler 128.
 */
 void Adc_Init(void);
 
@@ -32,7 +30,7 @@ uint16_t Adc_Read(uint8_t Channel);
 
 
 /**
-* @brief Reads the temperature from LM35 and converts to Celsius.
+* @brief Reads the temperature from LM35 using 1.1V Internal Reference.
 * @return Temperature in degrees Celsius.
 */
 int Get_Temperature(void);
