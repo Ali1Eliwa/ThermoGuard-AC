@@ -43,6 +43,36 @@ Native C programming must be used to complete the project; no external libraries
 This section describes where this module resides in the context of the software architecture
 ```plantuml
 
+@startuml
+title Automotive AC Project - Software Component Diagram
+!theme spacelab
+
+' --- Component Definitions ---
+component [Main App (ThermoGuard_AC.ino)] as Main
+component [LCD Driver (Lcd.ino)] as LCD
+component [ADC Driver (Adc.ino)] as ADC
+component [Keypad Driver (Keypad.ino)] as Keypad
+component [Motor & Servo Driver (Motor.ino)] as Motor
+database [Hardware_Defs.h] as HW_Defs
+
+' --- Main Application Relationships ---
+Main --> LCD : Uses (Display & Animation)
+Main --> ADC : Uses (Get_Temperature)
+Main --> Keypad : Uses (Get_Keypad_Press)
+Main --> Motor : Uses (Fan Speed & Servo Pulse)
+Main ..> HW_Defs : Includes
+
+' --- Driver-to-Driver Relationships ---
+' Note: Keypad uses ADC to read voltage levels
+Keypad --> ADC : Uses (Adc_Read)
+
+' --- Hardware Definition Dependencies ---
+Motor ..> HW_Defs : Includes
+LCD ..> HW_Defs : Includes
+ADC ..> HW_Defs : Includes
+Keypad ..> HW_Defs : Includes
+
+@enduml
 
 
 ```
