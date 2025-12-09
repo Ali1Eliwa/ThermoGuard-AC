@@ -1,4 +1,4 @@
-# Human Machine Interface (HMI) Project Design
+# ThermoGuard AC
 
 | **Author**              | `Ali Akram - Mahmoud Adgham - Ziad Khalil`                                       |
 |:------------------------|:-----------------------------------------------------|
