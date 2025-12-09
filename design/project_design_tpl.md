@@ -87,7 +87,7 @@ Keypad ..> HW_Defs : Includes
 
 ### Constraints
 Constraints
-* **Native C:** The application must be written in * **Native C:**, without using any Arduino-based functions or libraries.
+* **Native C:** The application must be written in  **Native C:**, without using any Arduino-based functions or libraries.
 * **Direct Register Access:** All peripherals (`Ports, ADC, Timers`) must be controlled via direct register manipulation.
 * **Input Logic:** The system must handle multiple logic layers: Turbo Mode (`Right Key`), Swing Mode (`Left Key`), and Temperature (`Up/Down`).
 * **Safety Priority:** The Overheat check must take precedence over all other logic; `if >50°C`, the system must lock down.
