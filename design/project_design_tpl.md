@@ -140,18 +140,19 @@ while (true) is (Main Loop)
 ## Integration and Configuration
 ### Static Files
 All source and header files that comprise the project are listed below.
+
 | File name | Contents |
-| :--- | :--- |
-| **...** |... |
-| **..\_..** | ... |
-| **...** | .... |
-| **..** |  |
-| **....** | .... |
-| **....** | .... |
-| **....** |.... |
-| **....** | .... |
-| **....** | .... |
-| **....** | ..... |
+|:---|:---|
+| `ThermoGuard_AC.ino` | Main application logic, safety monitoring, and servo timing loop. |
+| `Hardware_Defs.h` | Central definitions for all hardware pins, ports, ADC thresholds, and system constants. |
+| `Adc.h` | Exported interface for the ADC driver. |
+| `Adc.ino` | Implementation of the ADC driver (Temp sensor and Generic read). |
+| `Lcd.h` | Exported interface for the 16x2 LCD driver. |
+| `Lcd.ino` | Implementation of the 4-bit LCD driver with Custom Chars and Backlight. |
+| `Keypad.h` | Exported interface for the analog keypad driver. |
+| `Keypad.ino` | Implementation of the keypad driver (maps ADC values to key presses). |
+| `Motor.h` | Exported interface for the Motor and Servo driver. |
+| `Motor.ino` | Implementation of DC Motor (PWM) and Servo (Software Pulse) control. |
 
 ### Include Structure
 
