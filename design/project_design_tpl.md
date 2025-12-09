@@ -172,10 +172,55 @@ All source and header files that comprise the project are listed below.
 | `Motor.ino` | Implementation of DC Motor (PWM) and Servo (Software Pulse) control. |
 
 ### Include Structure
-
+This diagram illustrates the project's file include dependencies, showing how the main application (ThermoGuard_AC.ino) and various driver modules (.ino files) depend on interface (.h files) and configuration headers.
 
 ```plantuml
+@startuml
+title File Include Structure
 
+package "Application" {
+    component [ThermoGuard_AC.ino] as MainApp
+}
+
+package "Drivers" {
+    component [Keypad.ino]
+    component [Lcd.ino]
+    component [Adc.ino]
+    component [Motor.ino]
+}
+
+package "Interfaces" {
+    header [Keypad.h]
+    header [Lcd.h]
+    header [Adc.h]
+    header [Motor.h]
+}
+
+package "Configuration" {
+    header [Hardware_Defs.h]
+}
+
+' --- Relationships ---
+[MainApp] ..> [Hardware_Defs.h] : includes
+[MainApp] ..> [Adc.h] : includes
+[MainApp] ..> [Lcd.h] : includes
+[MainApp] ..> [Keypad.h] : includes
+[MainApp] ..> [Motor.h] : includes
+
+[Keypad.ino] ..> [Keypad.h] : includes
+[Keypad.ino] ..> [Hardware_Defs.h] : includes
+[Keypad.ino] ..> [Adc.h] : uses
+
+[Lcd.ino] ..> [Lcd.h] : includes
+[Lcd.ino] ..> [Hardware_Defs.h] : includes
+
+[Adc.ino] ..> [Adc.h] : includes
+[Adc.ino] ..> [Hardware_Defs.h] : includes
+
+[Motor.ino] ..> [Motor.h] : includes
+[Motor.ino] ..> [Hardware_Defs.h] : includes
+
+@enduml
 
 ```
 
