@@ -2,14 +2,14 @@
 
 | **Author**              | `Ali Akram - Mahmoud Adgham - Ziad Khalil`                                       |
 |:------------------------|:-----------------------------------------------------|
-| **Status**              | `Draft`                          |
+| **Status**              | `Release`                          |
 | **Version**             | `1.0`                                                |
-| **Date**                | `8/12/2025`                                         |
+| **Date**                | `9/12/2025`                                         |
 
 ## Introduction
 
 
-....
+This document provides the detailed software design for the "Automotive Air Conditioning Control Panel" (ThermoGuard) project. This system is developed for the AVR ATmega328P microcontroller as part of the KH5023FTE Embedded System Design & Development module.
 
 ### Purpose
 
