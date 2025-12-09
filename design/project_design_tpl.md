@@ -79,7 +79,11 @@ Keypad ..> HW_Defs : Includes
 
 ## Assumptions & Constraints
 ### Assumptions
-
+* **Microcontroller:** The code is written for an **AVR ATmega328P** microcontroller.
+* **System Clock:** The system clock frequency (`F_CPU`) is **16MHz**. This is critical for `_delay_ms()` timing and the ADC prescaler settings.
+* **Hardware Connections:**  All components (LCD, DC Motor, Servo, Keypad, LM35, Buzzers) are connected to the exact ports and pins defined in `Hardware_Defs.h`.
+* **ADC Configuration:** The ADC uses AVcc for Keypad reading, but switches to the internal 1.1V reference for the LM35 Temp Sensor to ensure precision.
+* **Servo Timing:** The Servo motor is controlled via software PWM nested inside the main loop timing to avoid conflicts with the Motor PWM timer.
 
 ### Constraints
 
