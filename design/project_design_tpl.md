@@ -93,7 +93,36 @@ Constraints
 * **Safety Priority:** The Overheat check must take precedence over all other logic; `if >50°C`, the system must lock down.
 
 ## Functional Description
+The system runs on one continuous loop that manages all its core activities. This loop has three primary jobs:
 
+1.  **Monitor & Interface:** The system constantly reads the ambient temperature using the ADC and updates the LCD screen with real-time data, fan animation frames, and operational modes (Cooling, Heating, Turbo, or Eco).
+2.  **Handle User Input & Safety:** It continuously checks the analog keypad to detect user commands (Temp adjustment, Turbo, Swing) and monitors for critical safety thresholds to prevent overheating.
+3.  **Actuation & Control:** The system regulates the DC Motor’s speed and direction based on the temperature logic and controls the Servo motor to oscillate the air vents when Swing Mode is active.
+
+#### This section provides a more detailed illustration of the application's logic.
+
+### 1. One-Time Setup
+* Initialize the LCD, ADC, Motor, and Servo drivers.
+* Display a "SYSTEM LOADING" splash screen with a progress bar animation.
+* Set the default Target Temperature (24°C) and initialize system state variables.
+
+### 2. The Main Loop (Repeats Forever)
+* **Read Inputs:** Get the current temperature value (from the LM35 sensor) and check which button (if any) is pressed on the keypad.
+* **Power Management (Eco Mode):**
+    * If no buttons are pressed for the `IDLE_TIMEOUT` period, enter **Eco Mode** (turn off LCD backlight and display "ECO MODE").
+    * If a button is pressed, **Wake Up** the system, turn on the backlight, and trigger a dual-buzzer pulse for feedback.
+* **Process Commands:**
+    * If the **UP** button is pressed, increase the Target Temperature by 1°C.
+    * If the **DOWN** button is pressed, decrease the Target Temperature by 1°C.
+    * If the **RIGHT** button is pressed, toggle **Turbo Mode** (sets Target to 16°C and Fan to Max).
+    * If the **LEFT** button is pressed, toggle **Swing Mode** (enables Servo oscillation).
+* **Emergency Logic:** If Current Temperature > 50°C, trigger **Overheat Protocol**. Activate LED and Buzzers, run Fan at 100%, and after a 5-second cooldown, strictly **Shutdown** the system.
+* **Calculate Control:** Calculate the difference between Current Temperature and Target Temperature.
+    * **Cooling:** If Current > Target, turn Motor **Forward** with speed proportional to the error.
+    * **Heating:** If Current < Target, turn Motor **Reverse** with speed proportional to the error.
+    * **Turbo:** Force Motor **Forward** at Maximum Speed (255 PWM) regardless of temperature.
+* **Show Status:** Update the LCD to show the Current Temp, Target Temp, Fan speed percentage, and animate the custom fan characters.
+* **Servo Actuation:** Execute a 200ms timing block that services the Servo State Machine, allowing the vents to sweep Left/Right smoothly without blocking the main program.
 
 
 #### Application Logic Flow
